@@ -5,7 +5,7 @@
 	<name>Finder Theme</name>
 	<summary>macOS Finder-style look for the Nextcloud Files app</summary>
 	<description><![CDATA[Floating sidebar with the folder tree (collapsible to an icons-only rail), full-width file list in a rounded panel with zebra stripes and a status bar, and an Immich-style header. Light and dark mode.]]></description>
-	<version>1.0.1</version>
+	<version>1.1.0</version>
 	<licence>mit</licence>
 	<author>Pedro Barbeiro</author>
 	<namespace>FinderTheme</namespace>

@@ -1,0 +1,213 @@
+/* Guest pages (share password prompt, share not found) and public shares:
+   same flat, rounded look as the Files app, no Nextcloud promotion footer */
+
+/* No "Nextcloud - a safe home for all your data" / "Get your own free
+   account" (the sign-up link is also off: simpleSignUpLink.shown = false) */
+body footer.guest-box,
+body#body-public footer .info {
+  display: none !important;
+}
+
+/* Flat neutral background instead of the default blue gradient/image */
+body#body-login {
+  background-image: none;
+  background-color: color-mix(in srgb, var(--color-main-text) 4%, var(--color-main-background));
+}
+
+/* The card */
+#body-login .body-login-container,
+#body-login .guest-box:not(footer) {
+  background: var(--color-main-background);
+  border: .5px solid color-mix(in srgb, var(--color-main-text) 12%, transparent);
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, .10);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* Fields like the Files search: 36px, 8px corners, flat translucent gray */
+#body-login input:not([type="checkbox"], [type="radio"], [type="submit"], [type="button"], .input-field__input) {
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: none;
+  background: color-mix(in srgb, var(--color-main-text) 6%, transparent);
+}
+#body-login input:not([type="checkbox"], [type="radio"], [type="submit"], [type="button"], .input-field__input):focus-visible {
+  outline: 2px solid var(--color-primary-element);
+  outline-offset: 1px;
+}
+
+/* Buttons: pill, accent fill */
+#body-login .button,
+#body-login button,
+#body-login input[type="submit"] {
+  min-height: 36px;
+  border: none;
+  border-radius: 999px;
+  box-shadow: none;
+}
+#body-login .button.primary,
+#body-login button.primary,
+#body-login input[type="submit"].primary,
+#body-login input[type="submit"] {
+  background-color: var(--color-primary-element);
+  color: var(--color-primary-element-text);
+}
+
+/* The logo is white: darken it on the light background */
+#body-login .logo {
+  filter: brightness(0) opacity(.7);
+}
+@media (prefers-color-scheme: dark) {
+  body[data-themes*="default"] #body-login .logo,
+  body#body-login[data-themes*="default"] .logo,
+  body#body-login:not([data-theme-light]) .logo {
+    filter: none;
+  }
+}
+body#body-login[data-theme-dark] .logo {
+  filter: none;
+}
+#body-login .button.primary,
+#body-login button.primary,
+#body-login input[type="submit"] {
+  color: #fff;
+}
+
+/* Share password prompt (NcInputField + wide primary button) */
+#body-login #guest-content-vue.guest-box {
+  box-sizing: border-box;
+  width: min(380px, calc(100vw - 32px));
+  padding: 28px 24px 24px;
+}
+#body-login #guest-content-vue h2 {
+  margin: 0 0 20px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+#body-login #guest-content-vue form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+#body-login .input-field__input {
+  height: 40px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--color-main-text) 6%, transparent);
+  box-shadow: none;
+  outline: none;
+}
+#body-login .input-field__input:focus,
+#body-login .input-field__input:focus-visible {
+  border-color: var(--color-primary-element);
+  outline: none;
+}
+#body-login .input-field__trailing-button {
+  border-radius: 8px;
+}
+#body-login .button-vue--vue-primary {
+  color: #fff;
+  border-radius: 999px;
+  min-height: 40px;
+  font-weight: 600;
+}
+
+/* Public share: the body has no data-theme-* attributes, so the light header
+   / background variables of finder.css do not reach it. Same values here. */
+@media (prefers-color-scheme: light) {
+  body#body-public {
+    --color-background-plain: #e8e8ea;
+    --color-background-plain-text: #1d1d1f;
+    --background-image-invert-if-bright: invert(100%);
+  }
+}
+body#body-public {
+  --color-primary-element: #50a3e8;
+  --color-primary-element-hover: #3d8fd4;
+  --color-primary-element-text: #ffffff;
+}
+
+/* Header buttons (Download, "...", help): same look as the header search
+   field (36px, 8px corners, flat translucent fill, no border or shadow) */
+#body-public #header .button-vue {
+  --resting-background: rgba(0, 0, 0, .06);
+  --resting-background-hover: rgba(0, 0, 0, .10);
+  min-height: 36px;
+  border: none !important;
+  border-radius: 8px;
+  box-shadow: none;
+  outline: none;
+  background-color: var(--resting-background);
+  color: var(--color-background-plain-text);
+}
+#body-public #header .button-vue:hover {
+  background-color: var(--resting-background-hover);
+}
+#body-public #header .button-vue:focus-visible {
+  outline: 2px solid var(--color-primary-element);
+  outline-offset: 1px;
+}
+/* Icon-only ones (help, "...") are 36px squares */
+#body-public #header .button-vue--icon-only {
+  width: 36px;
+  height: 36px;
+}
+@media (prefers-color-scheme: dark) {
+  #body-public #header .button-vue {
+    --resting-background: rgba(255, 255, 255, .08);
+    --resting-background-hover: rgba(255, 255, 255, .14);
+  }
+}
+
+/* Public share: only Download in the header (no "More actions" menu, no
+   user/help menu), no outer container, and the list panel styled like the
+   Files app panel (8px inset, 14px corners) */
+#body-public #public-page-menu,
+#body-public #public-page-user-menu {
+  display: none !important;
+}
+/* Outer container: looks only, geometry untouched (NcContent is
+   position: fixed and #content reserves the header height with its margins) */
+#body-public #content,
+#body-public #content-vue,
+#body-public #content-vue.content {
+  background: transparent !important;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+/* The inner panel fills the outer box and carries the border and corners */
+#body-public #content-vue #app-content-vue {
+  margin: 0 !important;
+  height: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding-block-end: 0;
+}
+
+/* Download button: 12px from the window edge and centred in the 56px header */
+#body-public #header .header-end {
+  align-items: center;
+  padding-inline-end: 12px;
+}
+#body-public #header #header-primary-action {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+/* A visible border on the main (inner) container */
+#body-public #content-vue #app-content-vue {
+  border: 1px solid color-mix(in srgb, var(--color-main-text) 16%, transparent);
+}
+
+/* Public share: no title in the header */
+#body-public #header .header-info {
+  display: none !important;
+}

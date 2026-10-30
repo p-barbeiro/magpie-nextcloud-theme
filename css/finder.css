@@ -135,8 +135,11 @@ body[data-theme-default] {
   --color-primary-element-light-hover: color-mix(in srgb, var(--nc-accent) 22%, var(--color-main-background));
   --color-primary-element-light-text: var(--nc-accent);
   /* Same header height as the Immich theme (56px instead of NC's 44px);
-     --body-height and the layout derive from it */
+     --body-height and the layout derive from it. NC computes --body-height on
+     :root with its own 44px, so it is repeated here, else the container
+     overflows the window by 12px and loses its bottom margin. */
   --header-height: 56px;
+  --body-height: calc(100% - env(safe-area-inset-bottom) - var(--header-height) - var(--body-container-margin));
 }
 
 /* Unchecked checkboxes: discreet gray outline (NC paints them in the
@@ -365,17 +368,36 @@ body .files-list__header-upload-button--narrow .action-item__menutoggle {
    is a multiple of 44px, so the stripes stay aligned with the rows.
    Inset from the edges like Finder (content-box clip + inline padding). */
 #app-content-vue .files-list__tbody {
+  --stripe-h: 44px;
+  --stripe-r: 6px;
+  /* Opaque, so the overlapping layers below do not double up */
+  --stripe-c: color-mix(in srgb, var(--color-main-text) 4%, var(--color-main-background));
   padding-inline: 8px;
   background-clip: content-box;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0 44px,
-    color-mix(in srgb, var(--color-main-text) 4%, transparent) 44px 88px
-  );
+  background-origin: content-box;
+  /* Rounded stripes: one tile of 2 rows (blank row, striped row). Layers:
+     full-width middle band, centre column, and four corner quarter-circles */
+  background-repeat: repeat-y;
+  background-image:
+    linear-gradient(to bottom, transparent calc(var(--stripe-h) + var(--stripe-r)), var(--stripe-c) 0 calc(2 * var(--stripe-h) - var(--stripe-r)), transparent 0),
+    linear-gradient(to bottom, transparent var(--stripe-h), var(--stripe-c) 0),
+    radial-gradient(circle at 100% calc(var(--stripe-h) + var(--stripe-r)), var(--stripe-c) calc(var(--stripe-r) - .5px), transparent var(--stripe-r)),
+    radial-gradient(circle at 0 calc(var(--stripe-h) + var(--stripe-r)), var(--stripe-c) calc(var(--stripe-r) - .5px), transparent var(--stripe-r)),
+    radial-gradient(circle at 100% calc(2 * var(--stripe-h) - var(--stripe-r)), var(--stripe-c) calc(var(--stripe-r) - .5px), transparent var(--stripe-r)),
+    radial-gradient(circle at 0 calc(2 * var(--stripe-h) - var(--stripe-r)), var(--stripe-c) calc(var(--stripe-r) - .5px), transparent var(--stripe-r));
+  background-size:
+    100% calc(2 * var(--stripe-h)),
+    calc(100% - 2 * var(--stripe-r)) calc(2 * var(--stripe-h)),
+    var(--stripe-r) calc(2 * var(--stripe-h)),
+    var(--stripe-r) calc(2 * var(--stripe-h)),
+    var(--stripe-r) calc(2 * var(--stripe-h)),
+    var(--stripe-r) calc(2 * var(--stripe-h));
+  background-position: 0 0, var(--stripe-r) 0, 0 0, 100% 0, 0 0, 100% 0;
 }
 #app-content-vue .files-list__tbody tr {
+  --row-radius: 6px;
   border-block-end: none;
-  border-radius: 6px;
+  border-radius: var(--row-radius);
 }
 
 /* Folders in Finder's light blue */
@@ -462,4 +484,148 @@ body #app-content-vue .files-list__tfoot {
   font-size: 11px;
   color: var(--color-text-maxcontrast);
   border-top: 1px solid var(--color-border);
+}
+
+/* ---------- Compact rows (Finder list view) ---------- */
+/* Toggle button, same look as the sidebar toggle */
+.nc-compact-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  margin-inline-end: 4px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-main-text);
+  cursor: pointer;
+}
+.nc-compact-toggle:hover {
+  background: color-mix(in srgb, var(--color-main-text) 8%, transparent);
+}
+/* 28px rows: the patched virtual list (bin/patch-files-main.sh) uses the same
+   height, so the stripes (28px period) and scrolling stay aligned */
+html[data-nc-compact] #app-content-vue .files-list:not(.files-list--grid) {
+  --row-height: 28px;
+  --cell-margin: 8px;
+  --checkbox-size: 16px;
+  --icon-preview-size: 18px;
+  --clickable-area: 24px;
+  font-size: 13px;
+}
+html[data-nc-compact] #app-content-vue .files-list:not(.files-list--grid) .files-list__tbody {
+  --stripe-h: 28px;
+  --stripe-r: 4px;
+}
+html[data-nc-compact] #app-content-vue .files-list__tbody tr {
+  --row-radius: 4px;
+}
+html[data-nc-compact] #app-content-vue .files-list__row-icon .folder-icon,
+html[data-nc-compact] #app-content-vue .files-list__row-icon .folder-open-icon {
+  width: 18px;
+  height: 18px;
+}
+html[data-nc-compact] #app-content-vue tr .files-list__row-actions .action-item__menutoggle,
+html[data-nc-compact] #app-content-vue tr .files-list__row-action--inline .button-vue {
+  min-height: 24px;
+  min-width: 24px;
+  height: 24px;
+  width: 24px;
+}
+html[data-nc-compact] #app-content-vue .files-list__row-size,
+html[data-nc-compact] #app-content-vue .files-list__row-mtime {
+  font-size: 12px;
+}
+
+/* Gap between the toolbar / selection bar and the first row (margin, so the
+   virtual list's padding math is untouched) */
+#app-content-vue .files-list__tbody {
+  margin-block-start: 4px;
+}
+
+/* Selected rows form one block: rounded only at the top of the first and the
+   bottom of the last row of each run */
+#app-content-vue .files-list__tbody tr:has(.files-list__row-checkbox input:checked) {
+  border-radius: 0;
+}
+#app-content-vue .files-list__tbody tr:first-child:has(.files-list__row-checkbox input:checked),
+#app-content-vue .files-list__tbody tr:not(:has(.files-list__row-checkbox input:checked)) + tr:has(.files-list__row-checkbox input:checked) {
+  border-start-start-radius: var(--row-radius);
+  border-start-end-radius: var(--row-radius);
+}
+#app-content-vue .files-list__tbody tr:last-child:has(.files-list__row-checkbox input:checked),
+#app-content-vue .files-list__tbody tr:has(.files-list__row-checkbox input:checked):not(:has(+ tr .files-list__row-checkbox input:checked)) {
+  border-end-start-radius: var(--row-radius);
+  border-end-end-radius: var(--row-radius);
+}
+
+/* Selection bar quick actions (Add to favorites / Copy / Download): neutral
+   pills like the other toolbar buttons instead of the tinted default */
+#app-content-vue .files-list__row-actions-batch .button-vue {
+  --color-primary-element-light: color-mix(in srgb, var(--color-main-text) 6%, transparent);
+  --color-primary-element-light-hover: color-mix(in srgb, var(--color-main-text) 12%, transparent);
+  --color-primary-element-light-text: var(--color-main-text);
+  border: none;
+  border-radius: 999px;
+  box-shadow: none;
+}
+/* The compact bar is 28px high; the default 44px buttons overflow it and are
+   clipped at the top */
+html[data-nc-compact] #app-content-vue .files-list__row-actions-batch {
+  --default-clickable-area: 24px;
+  align-items: center;
+}
+html[data-nc-compact] #app-content-vue .files-list__row-actions-batch .button-vue {
+  --icon-size: 16px;
+  min-height: 24px;
+  height: 24px;
+  min-width: 0;
+  /* 3px on top centres the content in the 24px pill (tested in the browser) */
+  padding: 3px 10px 0;
+}
+/* The icon box takes its size from a scoped variable set inline (20px) */
+html[data-nc-compact] #app-content-vue .files-list__row-actions-batch .icon-vue {
+  --dad67fa8: 16px !important;
+}
+html[data-nc-compact] #app-content-vue .files-list__row-actions-batch .button-vue__icon {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+}
+html[data-nc-compact] #app-content-vue .files-list__row-actions-batch .button-vue__icon svg,
+html[data-nc-compact] #app-content-vue .files-list__row-actions-batch .button-vue__icon .material-design-icon {
+  width: 16px;
+  height: 16px;
+}
+html[data-nc-compact] #app-content-vue .files-list__row-actions-batch .button-vue__wrapper {
+  gap: 6px;
+}
+html[data-nc-compact] #app-content-vue .files-list__row-actions-batch .button-vue__text {
+  padding: 0;
+}
+
+/* Icon and label on the same centre line */
+#app-content-vue .files-list__row-actions-batch .button-vue__wrapper {
+  align-items: center;
+  gap: 4px;
+}
+#app-content-vue .files-list__row-actions-batch .button-vue__icon,
+#app-content-vue .files-list__row-actions-batch .button-vue__text {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  margin: 0;
+}
+#app-content-vue .files-list__row-actions-batch {
+  display: flex;
+  align-items: center;
+}
+
+/* Destructive batch action in the error colour, set apart from the rest */
+#app-content-vue .files-list__row-actions-batch [data-cy-files-list-selection-action="delete"],
+#app-content-vue .files-list__row-actions-batch [data-cy-files-list-selection-action="delete"] .button-vue {
+  color: var(--color-element-error, var(--color-error));
 }
