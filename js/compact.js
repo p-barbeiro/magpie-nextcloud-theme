@@ -1,12 +1,12 @@
 /**
- * Compact (Finder-like) list rows for the Files app.
+ * Compact list rows for the Files app.
  *
  * A button left of the grid/list toggle switches between normal and compact
  * rows. The state lives on <html data-nc-compact> and in localStorage
  * ("nc-compact"). The row height itself is read from localStorage by the
  * patched files-main.js (see bin/patch-files-main.sh), so a change reloads the
  * page: the virtual list only reads its item height on start. Styles are in
- * css/finder.css.
+ * css/magpie.css.
  */
 (() => {
 	const KEY = 'nc-compact'

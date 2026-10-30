@@ -1,7 +1,7 @@
 /**
  * Browser / installed-app (PWA) title bar color: Nextcloud sets
  * <meta name="theme-color"> to the accent, but the page header is the plain
- * background color (see css/finder.css), so match that instead.
+ * background color (see css/magpie.css), so match that instead.
  */
 (() => {
 	const apply = () => {

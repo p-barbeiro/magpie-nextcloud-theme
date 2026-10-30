@@ -1,10 +1,10 @@
 /**
- * Finder-style sidebar rail for the Files app.
+ * Collapsible sidebar rail for the Files app.
  *
  * A button at the top of the Files navigation toggles between the full
  * sidebar and an icons-only rail. The state lives on <html data-nc-rail>
  * (not on the navigation element: Vue rewrites its class list on every
- * re-render) and is remembered in localStorage. Styles are in css/finder.css;
+ * re-render) and is remembered in localStorage. Styles are in css/magpie.css;
  * below 1024px the button is hidden there and Nextcloud's own mobile
  * navigation applies.
  */

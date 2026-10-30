@@ -1,4 +1,4 @@
-/* Finder Theme for Nextcloud 35: macOS Finder-style Files app.
+/* Magpie for Nextcloud 35: a calm, panelled Files app.
    Floating sidebar + full-width list panel, Immich-style header.
    Nextcloud variables + color-mix, so light and dark modes both adapt.
    Body attributes: data-theme-light / data-theme-dark / data-theme-default. */
@@ -268,7 +268,7 @@ body .checkbox-radio-switch:hover .checkbox-content__icon:not(.checkbox-content_
   border-radius: 8px;
   font-size: 13px;
 }
-/* macOS 26 sidebar icons are monochrome */
+/* Monochrome sidebar icons */
 #content-vue.app-files .app-navigation-entry-icon {
   color: color-mix(in srgb, var(--color-main-text) 75%, transparent);
 }
@@ -301,7 +301,7 @@ body .checkbox-radio-switch:hover .checkbox-content__icon:not(.checkbox-content_
 
 /* ---------- Toolbar ---------- */
 /* + / breadcrumbs, no separator line under them.
-   Finder toolbar buttons are neutral; blue is only an accent (selection,
+   Toolbar buttons stay neutral; blue is only an accent (selection,
    checkboxes). Re-scoping the primary variables turns the "+" gray. */
 /* NC reserves clickable-area + 2*padding (42px) on the left for the sidebar
    toggle, which is hidden on desktop (kept below 1024px) */
@@ -332,7 +332,7 @@ body .files-list__header-upload-button--narrow .action-item__menutoggle {
   display: none;
 }
 
-/* No Type / Modified / People filter buttons in the toolbar (Finder has none) */
+/* No Type / Modified / People filter buttons in the toolbar */
 #app-content-vue .files-list__header [class^="_fileListFilters"] {
   display: none;
 }
@@ -356,7 +356,7 @@ body .files-list__header-upload-button--narrow .action-item__menutoggle {
   padding-block: 48px;
 }
 
-/* ---------- List: Finder list view ---------- */
+/* ---------- List view ---------- */
 /* Row height stays at the native 44px: the virtual list hardcodes
    itemHeight 44 for scroll math, so a smaller --row-height leaves gaps. */
 #app-content-vue .files-list {
@@ -366,7 +366,7 @@ body .files-list__header-upload-button--narrow .action-item__menutoggle {
 /* Zebra stripes painted on tbody, not per row: the virtual list recycles
    rows, so nth-child parity would flicker while scrolling. The tbody padding
    is a multiple of 44px, so the stripes stay aligned with the rows.
-   Inset from the edges like Finder (content-box clip + inline padding). */
+   Inset from the edges (content-box clip + inline padding). */
 #app-content-vue .files-list__tbody {
   --stripe-h: 44px;
   --stripe-r: 6px;
@@ -400,7 +400,7 @@ body .files-list__header-upload-button--narrow .action-item__menutoggle {
   border-radius: var(--row-radius);
 }
 
-/* Folders in Finder's light blue */
+/* Folders in light blue */
 #app-content-vue .files-list__row-icon .folder-icon,
 #app-content-vue .files-list__row-icon .folder-open-icon {
   color: #4fa3e8;
@@ -436,7 +436,7 @@ body .files-list__header-upload-button--narrow .action-item__menutoggle {
   background-color: color-mix(in srgb, var(--color-primary-element) 22%, transparent);
 }
 
-/* Footer ("1 file · 1 folder") as Finder's status bar: the table becomes a
+/* Footer ("1 file · 1 folder") as a status bar: the table becomes a
    flex column so the footer sits at the bottom of the full-height list,
    and stays sticky when the list is longer than the window. */
 #app-content-vue .files-list__table:not(.files-list__table--hidden) {
@@ -486,7 +486,7 @@ body #app-content-vue .files-list__tfoot {
   border-top: 1px solid var(--color-border);
 }
 
-/* ---------- Compact rows (Finder list view) ---------- */
+/* ---------- Compact rows ---------- */
 /* Toggle button, same look as the sidebar toggle */
 .nc-compact-toggle {
   display: inline-flex;

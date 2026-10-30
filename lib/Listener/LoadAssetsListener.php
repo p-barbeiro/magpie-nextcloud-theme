@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OCA\FinderTheme\Listener;
+namespace OCA\Magpie\Listener;
 
-use OCA\FinderTheme\AppInfo\Application;
+use OCA\Magpie\AppInfo\Application;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -22,7 +22,7 @@ class LoadAssetsListener implements IEventListener {
 		if (!$event instanceof BeforeTemplateRenderedEvent) {
 			return;
 		}
-		Util::addStyle(Application::APP_ID, 'finder');
+		Util::addStyle(Application::APP_ID, 'magpie');
 		Util::addStyle(Application::APP_ID, 'guest');
 		// Public shares follow the same compact/normal choice (same origin)
 		Util::addScript(Application::APP_ID, 'compact');

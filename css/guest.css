@@ -118,7 +118,7 @@ body#body-login[data-theme-dark] .logo {
 }
 
 /* Public share: the body has no data-theme-* attributes, so the light header
-   / background variables of finder.css do not reach it. Same values here. */
+   / background variables of magpie.css do not reach it. Same values here. */
 @media (prefers-color-scheme: light) {
   body#body-public {
     --color-background-plain: #e8e8ea;
