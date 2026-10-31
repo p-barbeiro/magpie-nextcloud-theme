@@ -1,6 +1,9 @@
 <div align="center">
 
-# Magpie for Nextcloud
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/logo/lockup-dark.svg">
+  <img src="assets/logo/lockup-light.svg" alt="Magpie for Nextcloud" height="64">
+</picture>
 
 *A calm, panelled look for the Nextcloud Files app*
 
@@ -102,6 +105,8 @@ The script needs `python3`, keeps a `.orig` backup, is safe to run twice and sto
 | `js/theme-color.js` | Browser title bar color |
 | `lib/` | Loads the styles and scripts on every page; the rail only for signed-in users |
 | `bin/patch-files-main.sh` | Files bundle patch for compact rows |
+| `img/app.svg`, `img/app-dark.svg` | App icon for Nextcloud's menu and for light backgrounds |
+| `assets/logo/` | Logo kit: icon, lockups and favicons |
 
 ## Known limitations
 
