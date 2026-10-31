@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256"><g transform="translate(5.8 -17.8)" color="#141A2A"><g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <!-- outline only, thicker, for 16-32 px -->
+    <path d="M206 86 L 182 80 C 178 58 140 54 128 88 C 116 112 100 138 92 160 L 40 214 C 36 220 44 228 50 224 L 108 176 C 128 188 166 178 174 140 C 178 124 180 112 178 102 L 184 94 Z"/>
+    <circle cx="160" cy="88" r="9" fill="currentColor" stroke="none"/>
+  </g></g></svg>
